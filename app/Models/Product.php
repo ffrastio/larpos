@@ -12,6 +12,11 @@ class Product extends Model
     use HasFactory;
     use SoftDeletes;
 
+    /**
+     * fillable
+     *
+     * @var array
+     */
     protected $fillable = [
         "CATEGORY_ID",
         "IMAGE",
@@ -23,4 +28,14 @@ class Product extends Model
         "SELL_PRICE",
         "STOCK"
     ];
+
+    /**
+     * Get the Category that owns the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

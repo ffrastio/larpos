@@ -5,25 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cart extends Model
+class Profit extends Model
 {
     //
     use HasFactory;
 
     protected $fillable = [
-        'CASHIER_ID',
-        'PRODUCT_ID',
-        'QTY',
-        'PRICE'
+        'TRANSACTION_ID',
+        'TOTAL'
     ];
 
     /**
-     * Get the Product that owns the cart
+     * Get the Transaction that owns the Profit
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Product()
+    public function Transaction()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Transaction::class);
     }
+    
 }

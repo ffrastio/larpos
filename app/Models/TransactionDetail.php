@@ -17,4 +17,24 @@ class TransactionDetail extends Model
         'QTY',
         'PRICE',
     ];
+
+    /**
+     * Get the Transaction that owns the TransactionDetail
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Transaction()
+    {
+        return $this->belongsTo(Transaction::class);
+    }
+
+    /**
+     * Get the Product that owns the TransactionDetail
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
