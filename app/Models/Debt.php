@@ -25,6 +25,6 @@ class Debt extends Model
      */
     public function Customer()
     {
-        return $this->hasMany(Customer::class);
+        return $this->belongsTo(Customer::class);
     }
 }

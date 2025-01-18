@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('CUSTOMER_ID');
             $table->text('DESCRIPTION');
-            $table->bigIncrements('DEBT');
-            $table->bigIncrements('CASH');
-            $table->bigIncrements('TOTAL');
+            $table->bigInteger('DEBT');
+            $table->bigInteger('CASH');
+            $table->bigInteger('TOTAL');
             $table->timestamps();
 
             // Relationship Customer
