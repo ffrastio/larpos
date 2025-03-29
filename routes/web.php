@@ -19,6 +19,10 @@ Route::prefix('apps')->group(function () {
         //route permissions
         Route::get('/permissions', \App\Http\Controllers\Apps\PermissionController::class)->name('apps.permissions.index')
             ->middleware('permission:permissions.index');
+        Route::get('/permissions/create', [\App\Http\Controllers\Apps\PermissionController::class, 'create'])->name('apps.permissions.create')
+            ->middleware('permission:permissions.create');
+        Route::post('/permissions/store', [\App\Http\Controllers\Apps\PermissionController::class, 'store'])->name('apps.permissions.store')
+            ->middleware('permission:permissions.create');
 
         //route resource roles
         Route::resource('/roles', \App\Http\Controllers\Apps\RoleController::class, ['as' => 'apps'])

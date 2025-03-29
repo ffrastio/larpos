@@ -25,4 +25,35 @@ class PermissionController extends Controller
             'permissions' => $permissions
         ]);
     }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+
+        // render with inertia
+        return inertia('Apps/Permissions/Create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'          => 'required',
+            'guard_name'   => 'required'
+        ]);
+
+        // create Role
+        $permissions = Permission::create(
+            [
+                'name' => $request->name,
+                'guard_name' => $request->guard_name,
+            ]
+        );
+
+        $permissions->save();
+
+        // redirect
+        return redirect()->route('apps.permissions.index');
+    }
 }

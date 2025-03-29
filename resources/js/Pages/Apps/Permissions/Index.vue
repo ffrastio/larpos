@@ -18,12 +18,28 @@
                             <div class="card-body">
                                 <form @submit.prevent="handleSearch">
                                     <div class="input-group mb-3">
+                                        <Link
+                                            href="/apps/permissions/create"
+                                            v-if="
+                                                hasAnyPermission([
+                                                    'permissions.create',
+                                                ])
+                                            "
+                                            class="btn btn-primary input-group-text"
+                                        >
+                                            <i
+                                                class="fa fa-plus-circle me-2"
+                                            ></i>
+                                            NEW</Link
+                                        >
+
                                         <input
                                             type="text"
                                             class="form-control"
                                             v-model="search"
-                                            placeholder="search by permission name..."
+                                            placeholder="search by role name..."
                                         />
+
                                         <button
                                             class="btn btn-primary input-group-text"
                                             type="submit"
