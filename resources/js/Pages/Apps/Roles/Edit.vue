@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <title>Add New Role - Aplikasi Kasir</title>
+        <title>Edit Role - Aplikasi Kasir</title>
     </Head>
     <main class="c-main">
         <div class="container-fluid">
@@ -12,7 +12,7 @@
                         >
                             <div class="card-header">
                                 <span class="font-weight-bold"
-                                    ><i class="fa fa-shield-alt"></i> ADD
+                                    ><i class="fa fa-shield-alt"></i> EDIT
                                     ROLE</span
                                 >
                             </div>
@@ -72,7 +72,7 @@
                                                 class="btn btn-primary shadow-sm rounded-sm"
                                                 type="submit"
                                             >
-                                                SAVE
+                                                UPDATE
                                             </button>
                                             <button
                                                 class="btn btn-warning shadow-sm rounded-sm ms-3"
@@ -103,6 +103,7 @@ import { reactive } from "vue";
 
 //import sweet alert2
 import Swal from "sweetalert2";
+
 import "sweetalert2/dist/sweetalert2.min.css";
 
 export default {
@@ -119,21 +120,22 @@ export default {
     props: {
         errors: Object,
         permissions: Array,
+        role: Object,
     },
 
     //composition API
-    setup() {
+    setup(props) {
         //define form with reactive
         const form = reactive({
-            name: "",
-            permissions: [],
+            name: props.role.name,
+            permissions: props.role.permissions.map((obj) => obj.name),
         });
 
         //method "submit"
         const submit = () => {
             //send data to server
-            router.post(
-                "/apps/roles",
+            router.put(
+                `/apps/roles/${props.role.id}`,
                 {
                     //data
                     name: form.name,
@@ -144,7 +146,7 @@ export default {
                         //show success alert
                         Swal.fire({
                             title: "Success!",
-                            text: "Role saved successfully.",
+                            text: "Role updated successfully.",
                             icon: "success",
                             showConfirmButton: false,
                             timer: 2000,

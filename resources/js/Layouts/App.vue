@@ -36,8 +36,9 @@
 
                 <footer class="c-footer">
                     <div>
-                        <strong>APLIKASI KASIR</strong> &copy; 2022 -
-                        SantriKoding.com.
+                        <strong>APLIKASI KASIR</strong> &copy; 2011 -
+                        {{ myDate }}
+                        Monkermart
                     </div>
                 </footer>
             </div>
@@ -50,6 +51,11 @@ import Header from "../Components/Header.vue";
 import Sidebar from "../Components/Sidebar.vue";
 
 export default {
+    data() {
+        return {
+            myDate: new Date().getFullYear(),
+        };
+    },
     //register components
     components: {
         Header,
@@ -57,5 +63,4 @@ export default {
     },
 };
 </script>
-
 <style></style>
