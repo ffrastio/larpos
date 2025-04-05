@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <title>Add New Permissions - Aplikasi Kasir</title>
+        <title>Add New Category - Aplikasi Kasir</title>
     </Head>
     <main class="c-main">
         <div class="container-fluid">
@@ -12,60 +12,73 @@
                         >
                             <div class="card-header">
                                 <span class="font-weight-bold"
-                                    ><i class="fa fa-shield-alt"></i> ADD
-                                    PERMISSIONS</span
+                                    ><i class="fa fa-folder"></i> ADD NEW
+                                    CATEGORY</span
                                 >
                             </div>
                             <div class="card-body">
                                 <form @submit.prevent="submit">
                                     <div class="mb-3">
+                                        <input
+                                            class="form-control"
+                                            @input="
+                                                form.IMAGE =
+                                                    $event.target.files[0]
+                                            "
+                                            :class="{
+                                                'is-invalid': errors.IMAGE,
+                                            }"
+                                            type="file"
+                                        />
+                                    </div>
+                                    <div
+                                        v-if="errors.IMAGE"
+                                        class="alert alert-danger"
+                                    >
+                                        {{ errors.IMAGE }}
+                                    </div>
+                                    <div class="mb-3">
                                         <label class="fw-bold"
-                                            >Permissions Name</label
+                                            >Category Name</label
                                         >
                                         <input
                                             class="form-control"
-                                            v-model="form.name"
+                                            v-model="form.NAME"
                                             :class="{
-                                                'is-invalid': errors.name,
+                                                'is-invalid': errors.NAME,
                                             }"
                                             type="text"
-                                            placeholder="Permissions Name"
+                                            placeholder="Category Name"
                                         />
-
-                                        <div
-                                            v-if="errors.name"
-                                            class="alert alert-danger"
-                                        >
-                                            {{ errors.name }}
-                                        </div>
                                     </div>
-
+                                    <div
+                                        v-if="errors.NAME"
+                                        class="alert alert-danger"
+                                    >
+                                        {{ errors.NAME }}
+                                    </div>
                                     <div class="mb-3">
                                         <label class="fw-bold"
-                                            >Guard Name</label
+                                            >Description</label
                                         >
-                                        <select
-                                            name="guard_name"
-                                            id="guardName"
-                                            class="form-select"
-                                            v-model="form.guard_name"
+                                        <textarea
+                                            class="form-control"
+                                            v-model="form.DESCRIPTION"
                                             :class="{
-                                                'is-invalid': errors.guard_name,
+                                                'is-invalid':
+                                                    errors.DESCRIPTION,
                                             }"
-                                            aria-label="Disabled select example"
-                                        >
-                                            <option value="web">Web</option>
-                                            <option value="phone">Phone</option>
-                                        </select>
-
-                                        <div
-                                            v-if="errors.guard_name"
-                                            class="alert alert-danger"
-                                        >
-                                            {{ errors.guard_name }}
-                                        </div>
+                                            type="text"
+                                            rows="4"
+                                            placeholder="Description"
+                                        ></textarea>
                                     </div>
-
+                                    <div
+                                        v-if="errors.DESCRIPTION"
+                                        class="alert alert-danger"
+                                    >
+                                        {{ errors.DESCRIPTION }}
+                                    </div>
                                     <div class="row">
                                         <div class="col-12">
                                             <button
@@ -93,9 +106,10 @@
 </template>
 
 <script>
+//import layout App
 import LayoutApp from "../../../Layouts/App.vue";
 
-//import Heade and useForm from Inertia
+//import Heade and Link from Inertia
 import { Head, Link, router } from "@inertiajs/vue3";
 
 //import reactive from vue
@@ -108,7 +122,7 @@ export default {
     //layout
     layout: LayoutApp,
 
-    //register component
+    //register components
     components: {
         Head,
         Link,
@@ -123,26 +137,28 @@ export default {
     setup() {
         //define form with reactive
         const form = reactive({
-            name: "",
-            guard_name: "",
+            NAME: "",
+            IMAGE: "",
+            DESCRIPTION: "",
         });
 
         //method "submit"
         const submit = () => {
             //send data to server
             router.post(
-                "/apps/permissions/store",
+                "/apps/categories",
                 {
                     //data
-                    name: form.name,
-                    guard_name: form.guard_name,
+                    NAME: form.NAME,
+                    IMAGE: form.IMAGE,
+                    DESCRIPTION: form.DESCRIPTION,
                 },
                 {
                     onSuccess: () => {
                         //show success alert
                         Swal.fire({
                             title: "Success!",
-                            text: "Permission saved successfully.",
+                            text: "Category saved successfully.",
                             icon: "success",
                             showConfirmButton: false,
                             timer: 2000,
