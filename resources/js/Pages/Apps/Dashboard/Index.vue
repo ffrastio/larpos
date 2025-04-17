@@ -66,9 +66,9 @@
                                         <li v-for="product in products_limit_stock" :key="product.id" class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
                                                 <div class="fw-bold">{{ product.title }}</div>
-                                                <div class="text-muted">Category : {{ product.category.name }}</div>
+                                                <div class="text-muted">Category : {{ product.category.NAME }}</div>
                                             </div>
-                                            <span class="badge bg-danger rounded-pill">{{ product.stock }}</span>
+                                            <span class="badge bg-danger rounded-pill">{{ product.STOCK }}</span>
                                         </li>
                                     </ol>
                                 </div>

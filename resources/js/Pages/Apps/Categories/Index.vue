@@ -68,10 +68,10 @@
                                             ) in categories.data"
                                             :key="index"
                                         >
-                                            <td>{{ category.name }}</td>
+                                            <td>{{ category.NAME }}</td>
                                             <td class="text-center">
                                                 <img
-                                                    :src="category.image"
+                                                    :src="category.IMAGE"
                                                     width="40"
                                                 />
                                             </td>
