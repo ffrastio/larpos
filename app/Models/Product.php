@@ -37,7 +37,7 @@ class Product extends Model
      */
     public function Category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'CATEGORY_ID');
     }
 
     public function IMAGE(): Attribute

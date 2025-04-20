@@ -20,7 +20,7 @@ class ProductFactory extends Factory
     {
         return [
             //
-            "CATEGORY_ID" => fake()->numberBetween(1, 5),
+        "CATEGORY_ID" => fake()->numberBetween(1, 5),
             "IMAGE" => fake()->imageUrl(360, 360, 'animals'),
             "BARCODE" => fake()->randomNumber(7, true),
             "NAME" => fake()->name(),
