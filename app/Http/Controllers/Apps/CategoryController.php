@@ -62,8 +62,8 @@ class CategoryController extends Controller
         //create category
         Category::create([
             'IMAGE'         => $image->hashName(),
-            'NAME'          => $request->name,
-            'DESCRIPTION'   => $request->description
+            'NAME'          => $request->NAME,
+            'DESCRIPTION'   => $request->DESCRIPTION
         ]);
 
         //redirect
@@ -104,7 +104,7 @@ class CategoryController extends Controller
         if ($request->file('IMAGE')) {
 
             //remove old image
-            Storage::disk('local')->delete('public/categories/' . basename($category->image));
+            Storage::disk('local')->delete('public/categories/' . basename($category->IMAGE));
 
             //upload new image
             $image = $request->file('IMAGE');
@@ -113,15 +113,15 @@ class CategoryController extends Controller
             //update category with new image
             $category->update([
                 'IMAGE' => $image->hashName(),
-                'NAME' => $request->name,
-                'DESCRIPTION'   => $request->description
+                'NAME' => $request->NAME,
+                'DESCRIPTION'   => $request->DESCRIPTION
             ]);
         }
 
         //update category without image
         $category->update([
-            'NAME'          => $request->name,
-            'DESCRIPTION'   => $request->description
+            'NAME'          => $request->NAME,
+            'DESCRIPTION'   => $request->DESCRIPTION
         ]);
 
         //redirect
@@ -140,7 +140,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         //remove image
-        Storage::disk('local')->delete('public/categories/' . basename($category->image));
+        Storage::disk('local')->delete('public/categories/' . basename($category->IMAGE));
 
         //delete
         $category->delete();
