@@ -57,7 +57,7 @@ class CategoryController extends Controller
 
         //upload image
         $image = $request->file('IMAGE');
-        $image->storeAs('public/categories', $image->hashName());
+        $image->storeAs('public/categories', $image->hashName(), 'public');
 
         //create category
         Category::create([
@@ -104,11 +104,11 @@ class CategoryController extends Controller
         if ($request->file('IMAGE')) {
 
             //remove old image
-            Storage::disk('local')->delete('public/categories/' . basename($category->IMAGE));
+            Storage::disk('public')->delete('categories/' . basename($category->IMAGE));
 
             //upload new image
             $image = $request->file('IMAGE');
-            $image->storeAs('public/categories', $image->hashName());
+            $image->storeAs('categories', $image->hashName(),'public');
 
             //update category with new image
             $category->update([
@@ -140,7 +140,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         //remove image
-        Storage::disk('local')->delete('public/categories/' . basename($category->IMAGE));
+        Storage::disk('public')->delete('categories/' . basename($category->IMAGE));
 
         //delete
         $category->delete();
