@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('CASHIER_ID');
-            $table->unsignedBigInteger('PRODUCT_ID');
-            $table->integer('QTY');
-            $table->bigInteger('PRICE');
+            $table->unsignedBigInteger('cashier_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('qty');
+            $table->bigInteger('price');
             $table->timestamps();
 
             // Relationship User
-            $table->foreign('CASHIER_ID')->references('id')->on('users');
+            $table->foreign('cashier_id')->references('id')->on('users');
 
             // Relationship Product
-            $table->foreign('PRODUCT_ID')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

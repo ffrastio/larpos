@@ -13,21 +13,21 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('CASHIER_ID');
-            $table->unsignedBigInteger('CUSTOMER_ID');
-            $table->string('INVOICE');
-            $table->bigInteger('CASH');
-            $table->bigInteger('CHANGE');
-            $table->bigInteger('DISCOUNT');
-            $table->bigInteger('GRAND_TOTAL');
+            $table->unsignedBigInteger('cashier_id');
+            $table->unsignedBigInteger('customer_id');
+            $table->string('invoice');
+            $table->bigInteger('cash');
+            $table->bigInteger('change');
+            $table->bigInteger('discount');
+            $table->bigInteger('grand_total');
             $table->softDeletes();
             $table->timestamps();
 
             // Relationship Cashier/User
-            $table->foreign('CASHIER_ID')->references('id')->on('users');
-            
+            $table->foreign('cashier_id')->references('id')->on('users');
+
             // Relationship Customer
-            $table->foreign('CUSTOMER_ID')->references('id')->on('customers');
+            $table->foreign('customer_id')->references('id')->on('customers');
         });
     }
 

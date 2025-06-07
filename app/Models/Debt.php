@@ -11,11 +11,11 @@ class Debt extends Model
     use HasFactory;
 
     protected $fillable = [
-        'CUSTOMER_ID',
-        'DEBT',
-        'CASH',
-        'GRAND_TOTAL',
-        'DESCRIPTION'
+        'customer_id',
+        'debt',
+        'cash',
+        'grand_total',
+        'description'
     ];
 
     /**

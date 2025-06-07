@@ -13,20 +13,20 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('CATEGORY_ID');
-            $table->string('IMAGE');
-            $table->string('BARCODE')->unique();
-            $table->string('NAME');
-            $table->text('DESCRIPTION');
-            $table->bigInteger('PREVIOUS_PRICE');
-            $table->bigInteger('BUY_PRICE');
-            $table->bigInteger('SELL_PRICE');
-            $table->integer('STOCK');
+            $table->unsignedBigInteger('category_id');
+            $table->string('image');
+            $table->string('barcode')->unique();
+            $table->string('name');
+            $table->text('description');
+            $table->bigInteger('previous_price');
+            $table->bigInteger('buy_price');
+            $table->bigInteger('sell_price');
+            $table->integer('stock');
             $table->timestamps();
             $table->softDeletes();
 
             // Relationship Categories
-            $table->foreign('CATEGORY_ID')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

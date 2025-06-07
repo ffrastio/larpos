@@ -16,9 +16,9 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'IMAGE',
-        'NAME',
-        'DESCRIPTION'
+        'image',
+        'name',
+        'description'
     ];
 
     /**
@@ -31,10 +31,10 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function IMAGE(): Attribute
+    protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => url('/storage/category/' . $value),
+            get: fn($value) => asset('/storage/public/categories/' . $value),
         );
     }
 }

@@ -13,8 +13,8 @@ class Profit extends Model
     use HasFactory;
 
     protected $fillable = [
-        'TRANSACTION_ID',
-        'TOTAL'
+        'transaction_id',
+        'total'
     ];
 
     /**

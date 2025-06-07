@@ -19,7 +19,7 @@ class CategoryController extends Controller
     {
         //get categories
         $categories = Category::when(request()->q, function ($categories) {
-            $categories = $categories->where('NAME', 'like', '%' . request()->q . '%');
+            $categories = $categories->where('name', 'like', '%' . request()->q . '%');
         })->latest()->paginate(5);
 
         //return inertia
@@ -50,20 +50,20 @@ class CategoryController extends Controller
          * validate
          */
         $request->validate([
-            'IMAGE'         => 'required|image|mimes:jpeg,jpg,png|max:2000',
-            'NAME'          => 'required|unique:categories',
-            'DESCRIPTION'   => 'required'
+            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2000',
+            'name'          => 'required|unique:categories',
+            'description'   => 'required'
         ]);
 
         //upload image
-        $image = $request->file('IMAGE');
+        $image = $request->file('image');
         $image->storeAs('public/categories', $image->hashName(), 'public');
 
         //create category
         Category::create([
-            'IMAGE'         => $image->hashName(),
-            'NAME'          => $request->NAME,
-            'DESCRIPTION'   => $request->DESCRIPTION
+            'image'         => $image->hashName(),
+            'name'          => $request->name,
+            'description'   => $request->description
         ]);
 
         //redirect
@@ -96,32 +96,32 @@ class CategoryController extends Controller
          * validate
          */
         $request->validate([
-            'NAME'          => 'required|unique:categories,name,' . $category->id,
-            'DESCRIPTION'   => 'required'
+            'name'          => 'required|unique:categories,name,' . $category->id,
+            'description'   => 'required'
         ]);
 
         //check image update
-        if ($request->file('IMAGE')) {
+        if ($request->file('image')) {
 
             //remove old image
-            Storage::disk('public')->delete('categories/' . basename($category->IMAGE));
+            Storage::disk('public')->delete('categories/' . basename($category->image));
 
             //upload new image
-            $image = $request->file('IMAGE');
-            $image->storeAs('categories', $image->hashName(),'public');
+            $image = $request->file('image');
+            $image->storeAs('categories', $image->hashName(), 'public');
 
             //update category with new image
             $category->update([
-                'IMAGE' => $image->hashName(),
-                'NAME' => $request->NAME,
-                'DESCRIPTION'   => $request->DESCRIPTION
+                'image' => $image->hashName(),
+                'name' => $request->name,
+                'description'   => $request->description
             ]);
         }
 
         //update category without image
         $category->update([
-            'NAME'          => $request->NAME,
-            'DESCRIPTION'   => $request->DESCRIPTION
+            'name'          => $request->name,
+            'description'   => $request->description
         ]);
 
         //redirect
@@ -140,7 +140,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         //remove image
-        Storage::disk('public')->delete('categories/' . basename($category->IMAGE));
+        Storage::disk('public')->delete('categories/' . basename($category->image));
 
         //delete
         $category->delete();

@@ -11,10 +11,10 @@ class Cart extends Model
     use HasFactory;
 
     protected $fillable = [
-        'CASHIER_ID',
-        'PRODUCT_ID',
-        'QTY',
-        'PRICE'
+        'cashier_id',
+        'product_id',
+        'qty',
+        'price'
     ];
 
     /**

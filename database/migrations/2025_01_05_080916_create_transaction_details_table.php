@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('TRANSACTION_ID');
-            $table->unsignedBigInteger('PRODUCT_ID');
-            $table->integer('QTY');
-            $table->bigInteger('PRICE');
+            $table->unsignedBigInteger('transaction_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('qty');
+            $table->bigInteger('price');
             $table->timestamps();
 
             // Relationship Transaction
-            $table->foreign('TRANSACTION_ID')->references('id')->on('transactions');
+            $table->foreign('transaction_id')->references('id')->on('transactions');
 
             // Relationship Transaction
-            $table->foreign('PRODUCT_ID')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

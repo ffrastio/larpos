@@ -107,16 +107,16 @@
                                         >
                                             <div class="ms-2 me-auto">
                                                 <div class="fw-bold">
-                                                    {{ product.NAME }}
+                                                    {{ product.name }}
                                                 </div>
                                                 <div class="text-muted">
                                                     Category :
-                                                    {{ product.category.NAME }}
+                                                    {{ product.category.name }}
                                                 </div>
                                             </div>
                                             <span
                                                 class="badge bg-danger rounded-pill"
-                                                >{{ product.STOCK }}</span
+                                                >{{ product.stock }}</span
                                             >
                                         </li>
                                     </ol>

@@ -22,20 +22,20 @@
                                         <input
                                             class="form-control"
                                             @input="
-                                                form.IMAGE =
+                                                form.image =
                                                     $event.target.files[0]
                                             "
                                             :class="{
-                                                'is-invalid': errors.IMAGE,
+                                                'is-invalid': errors.image,
                                             }"
                                             type="file"
                                         />
                                     </div>
                                     <div
-                                        v-if="errors.IMAGE"
+                                        v-if="errors.image"
                                         class="alert alert-danger"
                                     >
-                                        {{ errors.IMAGE }}
+                                        {{ errors.image }}
                                     </div>
                                     <div class="mb-3">
                                         <label class="fw-bold"
@@ -43,19 +43,19 @@
                                         >
                                         <input
                                             class="form-control"
-                                            v-model="form.NAME"
+                                            v-model="form.name"
                                             :class="{
-                                                'is-invalid': errors.NAME,
+                                                'is-invalid': errors.name,
                                             }"
                                             type="text"
                                             placeholder="Category Name"
                                         />
                                     </div>
                                     <div
-                                        v-if="errors.NAME"
+                                        v-if="errors.name"
                                         class="alert alert-danger"
                                     >
-                                        {{ errors.NAME }}
+                                        {{ errors.name }}
                                     </div>
                                     <div class="mb-3">
                                         <label class="fw-bold"
@@ -63,21 +63,21 @@
                                         >
                                         <textarea
                                             class="form-control"
-                                            v-model="form.DESCRIPTION"
+                                            v-model="form.description"
                                             :class="{
                                                 'is-invalid':
-                                                    errors.DESCRIPTION,
+                                                    errors.description,
                                             }"
                                             type="text"
                                             rows="4"
-                                            placeholder="Description"
+                                            placeholder="description"
                                         ></textarea>
                                     </div>
                                     <div
-                                        v-if="errors.DESCRIPTION"
+                                        v-if="errors.description"
                                         class="alert alert-danger"
                                     >
-                                        {{ errors.DESCRIPTION }}
+                                        {{ errors.description }}
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
@@ -138,9 +138,9 @@ export default {
     setup(props) {
         //define form with reactive
         const form = reactive({
-            NAME: props.category.NAME,
-            DESCRIPTION: props.category.DESCRIPTION,
-            IMAGE: "",
+            name: props.category.name,
+            description: props.category.description,
+            image: "",
         });
 
         //method "submit"
@@ -151,9 +151,9 @@ export default {
                 {
                     //data
                     _method: "PUT",
-                    NAME: form.NAME,
-                    DESCRIPTION: form.DESCRIPTION,
-                    IMAGE: form.IMAGE,
+                    name: form.name,
+                    description: form.description,
+                    image: form.image,
                 },
                 {
                     onSuccess: () => {

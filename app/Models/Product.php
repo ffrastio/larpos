@@ -19,15 +19,15 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        "CATEGORY_ID",
-        "IMAGE",
-        "BARCODE",
-        "NAME",
-        "DESCRIPTION",
-        "PREVIOUS_PRICE",
-        "BUY_PRICE",
-        "SELL_PRICE",
-        "STOCK"
+        'category_id',
+        'image',
+        'barcode',
+        'name',
+        'description',
+        'previous_price',
+        'buy_price',
+        'sell_price',
+        'stock'
     ];
 
     /**
@@ -37,7 +37,7 @@ class Product extends Model
      */
     public function Category()
     {
-        return $this->belongsTo(Category::class, 'CATEGORY_ID');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function IMAGE(): Attribute

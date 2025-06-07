@@ -15,13 +15,13 @@ class Transaction extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'CASHIER_ID',
-        'CUSTOMER_ID',
-        'INVOICE',
-        'CASH',
-        'CHANGE',
-        'DISCOUNT',
-        'GRAND_TOTAL'
+        'cashier_id',
+        'customer_id',
+        'invoice',
+        'cash',
+        'change',
+        'discount',
+        'grand_total'
     ];
 
     /**
@@ -51,7 +51,7 @@ class Transaction extends Model
      */
     public function User()
     {
-        return $this->belongsTo(User::class, 'CASHIER_ID');
+        return $this->belongsTo(User::class, 'cashier_id');
     }
 
     /**

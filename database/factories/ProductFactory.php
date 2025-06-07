@@ -20,15 +20,15 @@ class ProductFactory extends Factory
     {
         return [
             //
-        "CATEGORY_ID" => fake()->numberBetween(1, 5),
-            "IMAGE" => fake()->imageUrl(360, 360, 'animals'),
-            "BARCODE" => fake()->randomNumber(7, true),
-            "NAME" => fake()->name(),
-            "DESCRIPTION" => fake()->paragraph(),
-            "PREVIOUS_PRICE" => fake()->randomNumber(5, false),
-            "BUY_PRICE" => fake()->randomNumber(5, false),
-            "SELL_PRICE" => fake()->randomNumber(5, false),
-            "STOCK" => fake()->randomNumber(2, false)
+            'category_id' => fake()->numberBetween(1, 5),
+            'image' => fake()->imageUrl(360, 360, 'animals'),
+            'barcode' => fake()->randomNumber(7, true),
+            'name' => fake()->name(),
+            'description' => fake()->paragraph(),
+            'previous_price' => fake()->randomNumber(5, false),
+            'buy_price' => fake()->randomNumber(5, false),
+            'sell_price' => fake()->randomNumber(5, false),
+            'stock' => fake()->randomNumber(2, false)
         ];
     }
 }

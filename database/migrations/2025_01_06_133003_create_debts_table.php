@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('debts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('CUSTOMER_ID');
-            $table->text('DESCRIPTION');
-            $table->bigInteger('DEBT');
-            $table->bigInteger('CASH');
-            $table->bigInteger('TOTAL');
+            $table->unsignedBigInteger('customer_id');
+            $table->text('description');
+            $table->bigInteger('debt');
+            $table->bigInteger('cash');
+            $table->bigInteger('total');
             $table->timestamps();
 
             // Relationship Customer
-            $table->foreign('CUSTOMER_ID')->references('id')->on('customers');
+            $table->foreign('customer_id')->references('id')->on('customers');
         });
     }
 

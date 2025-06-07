@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('profits', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('TRANSACTION_ID');
-            $table->bigInteger('TOTAL');
+            $table->unsignedBigInteger('transaction_id');
+            $table->bigInteger('total');
             $table->timestamps();
 
             // relationship Transaction
-            $table->foreign('TRANSACTION_ID')->references('id')->on('transactions');
+            $table->foreign('transaction_id')->references('id')->on('transactions');
         });
     }
 

@@ -19,9 +19,9 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'IMAGE' => fake()->imageUrl(360, 360, 'animals', true, 'cats'),
-            'NAME' => fake()->word(),
-            'DESCRIPTION' => fake()->paragraph(),
+            'image' => fake()->imageUrl(360, 360, 'animals', true, 'cats'),
+            'name' => fake()->word(),
+            'description' => fake()->paragraph(),
         ];
     }
 }
