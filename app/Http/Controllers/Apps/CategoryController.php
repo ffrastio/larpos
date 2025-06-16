@@ -57,7 +57,7 @@ class CategoryController extends Controller
 
         //upload image
         $image = $request->file('image');
-        $image->storeAs('public/categories', $image->hashName(), 'public');
+        $image->storeAs('categories', $image->hashName(), 'public');
 
         //create category
         Category::create([
