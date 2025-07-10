@@ -2,23 +2,204 @@
 
 namespace App\Http\Controllers\Apps;
 
-use App\Http\Controllers\Controller;
+use Inertia\Inertia;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class ProductController extends Controller
+class ProductController extends Controller implements HasMiddleware
 {
-    //
-
-    public static function middleware(): array {
+    /**
+     * middleware
+     *
+     * @return array
+     */
+    public static function middleware(): array
+    {
         return [
-            new Middleware(['permission:products.index'], ['index']),
+            new Middleware(['permission:products.index'], only: ['index']),
             new Middleware(['permission:products.create'], only: ['create', 'store']),
             new Middleware(['permission:products.edit'], only: ['edit', 'update']),
             new Middleware(['permission:products.delete'], only: ['destroy']),
         ];
     }
-    public function index () {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //get products
+        $products = Product::when(request()->q, function ($products) {
+            $products = $products->where('name', 'like', '%' . request()->q . '%');
+        })->latest()->paginate(5);
 
+        //return inertia
+        return Inertia::render('Apps/Products/Index', [
+            'products' => $products,
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //get categories
+        $categories = Category::all();
+
+        //return inertia
+        return Inertia::render('Apps/Products/Create', [
+            'categories' => $categories
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        /**
+         * validate
+         */
+        $request->validate([
+            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2000',
+            'barcode'       => 'required|unique:products',
+            'name'         => 'required',
+            'description'   => 'required',
+            'category_id'   => 'required',
+            'buy_price'     => 'required',
+            'sell_price'    => 'required',
+            'stock'         => 'required',
+        ]);
+
+        //upload image
+        $image = $request->file('image');
+        $image->storeAs('products', $image->hashName(), 'public');
+
+        //create product
+        Product::create([
+            'image'         => $image->hashName(),
+            'barcode'       => $request->barcode,
+            'name'          => $request->name,
+            'description'   => $request->description,
+            'category_id'   => $request->category_id,
+            'buy_price'     => $request->buy_price,
+            'sell_price'    => $request->sell_price,
+            'stock'         => $request->stock,
+        ]);
+
+        //redirect
+        return redirect()->route('apps.products.index');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Product $product)
+    {
+        //get categories
+        $categories = Category::all();
+
+        return Inertia::render('Apps/Products/Edit', [
+            'product' => $product,
+            'categories' => $categories
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Product $product)
+    {
+        /**
+         * validate
+         */
+        $request->validate([
+            'barcode'       => 'required|unique:products,barcode,' . $product->id,
+            'name'          => 'required',
+            'description'   => 'required',
+            'category_id'   => 'required',
+            'buy_price'     => 'required',
+            'sell_price'    => 'required',
+            'stock'         => 'required',
+        ]);
+
+        //check image update
+        if ($request->file('image')) {
+
+            //remove old image
+            Storage::disk('public')->delete('products/' . basename($product->image));
+
+            //upload new image
+            $image = $request->file('image');
+            $image->storeAs('products', $image->hashName(), 'public');
+
+            //update product with new image
+            $product->update([
+                'image'             => $image->hashName(),
+                'barcode'           => $request->barcode,
+                'name'              => $request->name,
+                'description'       => $request->description,
+                'category_id'       => $request->category_id,
+                'buy_price'         => $request->buy_price,
+                'sell_price'        => $request->sell_price,
+                'stock'             => $request->stock,
+                'previous_price'    => $product->buy_price,
+            ]);
+        }
+
+        //update product without image
+        $product->update([
+            'barcode'           => $request->barcode,
+            'name'              => $request->name,
+            'description'       => $request->description,
+            'category_id'       => $request->category_id,
+            'buy_price'         => $request->buy_price,
+            'sell_price'        => $request->sell_price,
+            'stock'             => $request->stock,
+            'previous_price'    => $product->buy_price,
+        ]);
+
+        //redirect
+        return redirect()->route('apps.products.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //find by ID
+        $product = Product::findOrFail($id);
+
+        //remove image
+        Storage::disk('public')->delete('products/' . basename($product->image));
+
+        //delete
+        $product->delete();
+
+        //redirect
+        return redirect()->route('apps.products.index');
     }
 }
