@@ -54,13 +54,27 @@
                                 >
                                     <thead>
                                         <tr>
-                                            <th scope="col">Barcode</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Buy Price</th>
-                                            <th scope="col">Sell Price</th>
-                                            <th scope="col">Stock</th>
-                                            <th scope="col" style="width: 20%">
-                                                Actions
+                                            <th scope="col" class="text-center">
+                                                Barcode
+                                            </th>
+                                            <th scope="col" class="text-center">
+                                                Nama Barang
+                                            </th>
+                                            <th scope="col" class="text-center">
+                                                Harga Modal
+                                            </th>
+                                            <th scope="col" class="text-center">
+                                                Harga Jual
+                                            </th>
+                                            <th scope="col" class="text-center">
+                                                Stok
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="text-center"
+                                                style="width: 20%"
+                                            >
+                                                Aksi
                                             </th>
                                         </tr>
                                     </thead>
@@ -72,7 +86,13 @@
                                             :key="index"
                                         >
                                             <td class="text-center">
-                                                {{ product.barcode }}
+                                                <Barcode
+                                                    :value="product.barcode"
+                                                    :format="'CODE39'"
+                                                    :lineColor="'#000'"
+                                                    :width="1"
+                                                    :height="20"
+                                                />
                                             </td>
                                             <td>{{ product.name }}</td>
                                             <td>
@@ -82,6 +102,34 @@
                                                         product.buy_price
                                                     )
                                                 }}
+                                                <sup
+                                                    v-if="
+                                                        product.buy_price >
+                                                            product.previous_price &&
+                                                        product.previous_price !=
+                                                            0
+                                                    "
+                                                    class="fw-bold"
+                                                    style="color: #f74646"
+                                                    >▲
+                                                    {{
+                                                        product.buy_price -
+                                                        product.previous_price
+                                                    }}</sup
+                                                >
+                                                <sub
+                                                    v-else-if="
+                                                        product.buy_price <
+                                                        product.previous_price
+                                                    "
+                                                    class="fw-bold"
+                                                    style="color: #46f77b"
+                                                    >▼
+                                                    {{
+                                                        product.buy_price -
+                                                        product.previous_price
+                                                    }}</sub
+                                                >
                                             </td>
                                             <td>
                                                 Rp.
@@ -153,6 +201,9 @@ import { ref } from "vue";
 //import sweet alert2
 import Swal from "sweetalert2";
 
+//import component barcode
+import Barcode from "../../../Components/Barcode.vue";
+
 export default {
     //layout
     layout: LayoutApp,
@@ -162,6 +213,7 @@ export default {
         Head,
         Link,
         Pagination,
+        Barcode,
     },
 
     //props
