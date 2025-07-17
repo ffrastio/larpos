@@ -110,12 +110,10 @@
                                         <select
                                             v-model="payment"
                                             name="payment"
-                                            class="form-control"
-                                            :preserve-search="true"
-                                            :preselect-first="true"
+                                            class="form-select"
                                         >
                                             <option value="cash" selected>
-                                                Cash
+                                                Tunai
                                             </option>
                                             <option value="credit">
                                                 Hutang

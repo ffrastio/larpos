@@ -10,8 +10,10 @@ use App\Models\Transaction;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Date;
 
 class TransactionController extends Controller implements HasMiddleware
 {
@@ -145,14 +147,16 @@ class TransactionController extends Controller implements HasMiddleware
         /**
          * algorithm generate no invoice
          */
-        $length = 10;
+        $length = 4;
         $random = '';
         for ($i = 0; $i < $length; $i++) {
             $random .= rand(0, 1) ? rand(0, 9) : chr(rand(ord('a'), ord('z')));
         }
 
+        $date = Carbon::now()->format("Ymd");
+
         //generate no invoice
-        $invoice = 'TRX-' . Str::upper($random);
+        $invoice = 'TRX-' . $date . "-" . Str::upper($random);
 
         //insert transaction
         $transaction = Transaction::create([
