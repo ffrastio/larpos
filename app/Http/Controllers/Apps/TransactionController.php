@@ -173,7 +173,7 @@ class TransactionController extends Controller implements HasMiddleware
         foreach ($carts as $cart) {
 
             //insert transaction detail
-            $transaction->details()->create([
+            $transaction->transactionDetails()->create([
                 'transaction_id'    => $transaction->id,
                 'product_id'        => $cart->product_id,
                 'qty'               => $cart->qty,
@@ -188,7 +188,7 @@ class TransactionController extends Controller implements HasMiddleware
             $profits = $total_sell_price - $total_buy_price;
 
             //insert provits
-            $transaction->profits()->create([
+            $transaction->Profit()->create([
                 'transaction_id'    => $transaction->id,
                 'total'             => $profits,
             ]);
@@ -217,7 +217,7 @@ class TransactionController extends Controller implements HasMiddleware
     public function print(Request $request)
     {
         //get transaction
-        $transaction = Transaction::with('details.product', 'cashier', 'customer')->where('invoice', $request->invoice)->firstOrFail();
+        $transaction = Transaction::with('transactionDetails.product', 'User', 'Customer')->where('invoice', $request->invoice)->firstOrFail();
 
         //return view
         return view('print.nota', compact('transaction'));

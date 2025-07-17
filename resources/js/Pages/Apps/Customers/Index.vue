@@ -70,7 +70,7 @@
                                             :key="index"
                                         >
                                             <td>{{ customer.name }}</td>
-                                            <td>0{{ customer.no_hp }}</td>
+                                            <td>{{ customer.no_hp }}</td>
                                             <td>{{ customer.address }}</td>
                                             <td class="text-center">
                                                 <Link

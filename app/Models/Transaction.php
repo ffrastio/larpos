@@ -22,7 +22,7 @@ class Transaction extends Model
         'change',
         'discount',
         'grand_total',
-        'is_debt'
+        'payment'
     ];
 
     /**
@@ -40,7 +40,7 @@ class Transaction extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Cutomer()
+    public function Customer()
     {
         return $this->belongsTo(Customer::class);
     }
