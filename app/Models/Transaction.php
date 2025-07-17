@@ -21,7 +21,8 @@ class Transaction extends Model
         'cash',
         'change',
         'discount',
-        'grand_total'
+        'grand_total',
+        'is_debt'
     ];
 
     /**

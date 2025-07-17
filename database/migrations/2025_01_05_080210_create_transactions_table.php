@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('change');
             $table->bigInteger('discount');
             $table->bigInteger('grand_total');
+            $table->enum('payment', ['cash', 'credit']);
             $table->softDeletes();
             $table->timestamps();
 
