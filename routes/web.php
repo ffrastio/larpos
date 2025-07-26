@@ -66,5 +66,11 @@ Route::prefix('apps')->group(function () {
 
         //route sales filter
         Route::get('/sales/filter', [\App\Http\Controllers\Apps\SaleController::class, 'filter'])->name('apps.sales.filter');
+
+        //route profits index
+        Route::get('/profits', [\App\Http\Controllers\Apps\ProfitController::class, 'index'])->name('apps.profits.index');
+
+        //route profits filter
+        Route::get('/profits/filter', [\App\Http\Controllers\Apps\ProfitController::class, 'filter'])->name('apps.profits.filter');
     });
 });
