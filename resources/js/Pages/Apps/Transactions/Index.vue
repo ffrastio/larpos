@@ -30,7 +30,6 @@
                                         class="form-control"
                                         :value="product.name"
                                         placeholder="Product Name"
-                                        readonly
                                     />
                                 </div>
                                 <div class="mb-3">
@@ -290,6 +289,7 @@ export default {
     props: {
         auth: Object,
         customers: Array,
+        products: Array,
         carts_total: Number,
         session: Object,
         carts: Array,

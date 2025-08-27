@@ -41,11 +41,13 @@ class TransactionController extends Controller implements HasMiddleware
 
         //get all customers
         $customers = Customer::latest()->get();
+        $products  = Product::latest()->get();
 
         return Inertia::render('Apps/Transactions/Index', [
             'carts'         => $carts,
             'carts_total'   => $carts->sum('price'),
-            'customers'     => $customers
+            'customers'     => $customers,
+            'products'      => $products
         ]);
     }
 
