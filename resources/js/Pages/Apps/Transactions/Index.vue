@@ -9,27 +9,45 @@
                     <div class="col-md-4">
                         <div class="card border-0 rounded-3 shadow">
                             <div class="card-body">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"
-                                        ><i class="fa fa-barcode"></i
-                                    ></span>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        v-model="barcode"
-                                        @keyup="searchProduct"
-                                        placeholder="Scan or Input Barcode"
-                                    />
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold"
+                                        >Product</label
+                                    >
+                                    <VueMultiselect
+                                        v-model="selectedProduct"
+                                        label="name"
+                                        track-by="id"
+                                        :options="products"
+                                        :preserve-search="true"
+                                        placeholder="Select or search product"
+                                        :preselect-first="false"
+                                        @select="onProductSelect"
+                                    >
+                                        <template slot="option" slot-scope="props">
+                                            <div>
+                                                <strong>{{ props.option.name }}</strong>
+                                                <div class="small">
+                                                    Barcode: {{ props.option.barcode }} | 
+                                                    Price: Rp. {{ formatPrice(props.option.sell_price) }} | 
+                                                    Stock: {{ props.option.stock }}
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template slot="singleLabel" slot-scope="props">
+                                            <strong>{{ props.option.name }}</strong>
+                                        </template>
+                                    </VueMultiselect>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fw-bold"
-                                        >Product Name</label
+                                        >Product Details</label
                                     >
                                     <input
                                         type="text"
                                         class="form-control"
-                                        :value="product.name"
+                                        :value="selectedProduct ? selectedProduct.name : ''"
                                         placeholder="Product Name"
+                                        readonly
                                     />
                                 </div>
                                 <div class="mb-3">
@@ -42,20 +60,21 @@
                                         v-model="qty"
                                         placeholder="Qty"
                                         min="1"
+                                        :disabled="!selectedProduct"
                                     />
                                 </div>
                                 <div class="text-end">
                                     <button
-                                        @click.prevent="clearSearch"
+                                        @click.prevent="clearProduct"
                                         class="btn btn-warning btn-md border-0 shadow text-uppercase mt-3 me-2"
-                                        :disabled="!product.id"
+                                        :disabled="!selectedProduct"
                                     >
                                         CLEAR
                                     </button>
                                     <button
                                         @click.prevent="addToCart"
                                         class="btn btn-success btn-md border-0 shadow text-uppercase mt-3"
-                                        :disabled="!product.id"
+                                        :disabled="!selectedProduct"
                                     >
                                         ADD ITEM
                                     </button>
@@ -299,36 +318,24 @@ export default {
     //composition API
     setup(props) {
         //define state
-        const barcode = ref("");
-        const product = ref({});
+        const selectedProduct = ref(null);
         const qty = ref(1);
-        const payment = ref("");
-        //metho "searchProduct"
-        const searchProduct = () => {
-            //fetch with axios
-            axios
-                .post("/apps/transactions/searchProduct", {
-                    //send data "barcode"
-                    barcode: barcode.value,
-                })
-                .then((response) => {
-                    if (response.data.success) {
-                        //assign response to state "product"
-                        product.value = response.data.data;
-                    } else {
-                        //set state "product" to empty object
-                        product.value = {};
-                    }
-                });
+        const payment = ref("cash");
+
+        //method "onProductSelect"
+        const onProductSelect = (product) => {
+            if (product) {
+                selectedProduct.value = product;
+            }
         };
 
-        //method "clearSearch"
-        const clearSearch = () => {
-            //set state "product" to empty object
-            product.value = {};
-
-            //set state "barcode" to empty string
-            barcode.value = "";
+        //method "clearProduct"
+        const clearProduct = () => {
+            //set state "selectedProduct" to null
+            selectedProduct.value = null;
+            
+            //set qty to "1"
+            qty.value = 1;
         };
 
         //define state grandTotal
@@ -341,17 +348,14 @@ export default {
                 "/apps/transactions/addToCart",
                 {
                     //data
-                    product_id: product.value.id,
+                    product_id: selectedProduct.value.id,
                     qty: qty.value,
-                    sell_price: product.value.sell_price,
+                    sell_price: selectedProduct.value.sell_price,
                 },
                 {
                     onSuccess: () => {
-                        //call method "clearSaerch"
-                        clearSearch();
-
-                        //set qty to "1"
-                        qty.value = 1;
+                        //call method "clearProduct"
+                        clearProduct();
 
                         //update state "grandTotal"
                         grandTotal.value = props.carts_total;
@@ -428,8 +432,8 @@ export default {
                     payment: payment.value,
                 })
                 .then((response) => {
-                    //call method "clearSaerch"
-                    clearSearch();
+                    //call method "clearProduct"
+                    clearProduct();
 
                     //set qty to "1"
                     qty.value = 1;
@@ -469,10 +473,9 @@ export default {
         };
 
         return {
-            barcode,
-            product,
-            searchProduct,
-            clearSearch,
+            selectedProduct,
+            onProductSelect,
+            clearProduct,
             qty,
             grandTotal,
             addToCart,
